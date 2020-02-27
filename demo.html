@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .container{
+            width: 1200px;
+        }
+        .row{
+            margin-bottom: 10px;
+        }
+        .img{
+            color: white;
+            font: 14px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" ></div>
+    <script src='./l-waterfall.js' ></script>
+    <script>
+        let img = getImgArr(30);
+
+        let waterfall = LWaterfall.create({
+            container: '.container', 
+            imgArr: img, 
+            rowHeight: 280, 
+            pageSize: img.length
+        });
+
+        console.log(waterfall);
+
+        for(let i = 0; i < waterfall.length; ++i){
+            let div_row = document.createElement('div');
+            div_row.className = 'row';
+            let row = waterfall[i].row;
+
+            for(let j = 0; j < row.length; j++){
+                let div_img = document.createElement('div');
+                div_img.style.display = 'inline-block';
+                div_img.style.width = row[j].showWidth + 'px';
+                div_img.style.height = row[j].showHeight + 'px';
+                div_img.style.background = '#' + row[j].bg;
+                div_img.style.marginRight = row[j].marginRight + 'px';
+                div_img.innerText = row[j].id;
+                div_img.className = 'img';
+                div_row.appendChild(div_img)
+            }
+            document.querySelector('.container').appendChild(div_row);
+        }
+
+        function getImgArr(imgSum){
+            let img = [];
+            let width, height, color = 'fff', format = 'png', url, bg='f90';
+            for(let i = 0; i < imgSum; ++i){
+                width = Math.floor(Math.random() * 1500 + 300);
+                height = Math.floor(Math.random() * 1500 + 300);
+                // width = 360;
+                // height = 360;
+                url = `https://via.placeholder.com/${width}x${height}/${bg}/${color}.${format}`;
+                bg = `${Math.floor(Math.random()*10)}${Math.floor(Math.random()*10)}${Math.floor(Math.random()*10)}`;
+                img.push({
+                    id: i,
+                    width,
+                    height,
+                    url,
+                    bg
+                });
+            }
+            return img;
+        }
+    </script>
+</body>
+</html>
